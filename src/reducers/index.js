@@ -20,21 +20,38 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
     switch(action.type) {
         case(ADD_FEATURE):
-        const newFeature = state.additionalFeatures[action.payload - 1]
+        const newFeature = state.additionalFeatures.filter((item) => {
+          if(item.id === action.payload) return item
+        })[0]
         const addFeature = state.additionalFeatures.filter((item) => {
-
+          if(item.id !== action.payload) return item
         })
+        console.log('addFeatures',addFeature, 'newFeature',newFeature)
         return ({
-          ...state, car: {...state.car, features: [...state.car.features, newFeature]}, additionalPrice: newFeature.price + state.additionalPrice
+          ...state, 
+          car: {
+            ...state.car,
+            features: [...state.car.features, newFeature]
+            },
+          additionalFeatures: addFeature,
+          additionalPrice: newFeature.price + state.additionalPrice
         })
 
         case(CLEAR_FEATURE):
-        const subtractFeature = state.additionalFeatures[action.payload - 1]
+        const subtractFeature = state.car.features.filter((item) => {
+          if(item.id === action.payload) return item
+        })[0]
         const removeFeature = state.car.features.filter((item) => {
            if(item.id !== action.payload) return item
         })
           return({
-            ...state, car: {...state.car, features: removeFeature}, additionalPrice: state.additionalPrice - subtractFeature.price 
+            ...state, 
+            car: {
+              ...state.car,
+              features: removeFeature
+              },
+            additionalFeatures: [...state.additionalFeatures, subtractFeature],
+            additionalPrice: state.additionalPrice - subtractFeature.price 
           })
 
         default: 
