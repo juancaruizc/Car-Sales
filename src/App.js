@@ -1,5 +1,4 @@
 import React from 'react';
-import {carSalesReducer, initialState} from './reducers/carSalesReducer'
 import Header from './components/Header';
 import AddedFeatures from './components/AddedFeatures';
 import AdditionalFeatures from './components/AdditionalFeatures';
